@@ -2,9 +2,12 @@ package tbeerbower.org.wsfl.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -21,14 +24,26 @@ public class Matchup {
     @Column(name = "season_id", nullable = false)
     private Integer seasonId;
 
-    @Column(name = "race_id", nullable = false)
+    @Column(name = "race_id", nullable = false, insertable = false, updatable = false)
     private Integer raceId;
 
-    @Column(name = "team_a_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "race_id", referencedColumnName = "id")
+    private Race race;
+
+    @Column(name = "team_a_id", nullable = false, insertable = false, updatable = false)
     private Integer teamAId;
 
-    @Column(name = "team_b_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "team_a_id", referencedColumnName = "id")
+    private Team teamA;
+
+    @Column(name = "team_b_id", nullable = false, insertable = false, updatable = false)
     private Integer teamBId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "team_b_id", referencedColumnName = "id")
+    private Team teamB;
 
     // Getters and setters
 
@@ -70,6 +85,30 @@ public class Matchup {
 
     public void setTeamBId(Integer teamBId) {
         this.teamBId = teamBId;
+    }
+
+    public Race getRace() {
+        return race;
+    }
+
+    public void setRace(Race race) {
+        this.race = race;
+    }
+
+    public Team getTeamA() {
+        return teamA;
+    }
+
+    public void setTeamA(Team teamA) {
+        this.teamA = teamA;
+    }
+
+    public Team getTeamB() {
+        return teamB;
+    }
+
+    public void setTeamB(Team teamB) {
+        this.teamB = teamB;
     }
 
     @Override

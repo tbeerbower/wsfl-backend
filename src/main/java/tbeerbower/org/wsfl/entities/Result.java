@@ -2,6 +2,7 @@ package tbeerbower.org.wsfl.entities;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "result")
@@ -102,5 +103,30 @@ public class Result implements Serializable {
 
     public void setRace(Race race) {
         this.race = race;
+    }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "id=" + id +
+                ", runnerId=" + runnerId +
+                ", placeGender=" + placeGender +
+                ", placeOverall=" + placeOverall +
+                ", time='" + time + '\'' +
+                ", raceId=" + raceId +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Result result = (Result) o;
+        return Objects.equals(id, result.id) && Objects.equals(runnerId, result.runnerId) && Objects.equals(placeGender, result.placeGender) && Objects.equals(placeOverall, result.placeOverall) && Objects.equals(time, result.time) && Objects.equals(raceId, result.raceId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, runnerId, placeGender, placeOverall, time, raceId);
     }
 }

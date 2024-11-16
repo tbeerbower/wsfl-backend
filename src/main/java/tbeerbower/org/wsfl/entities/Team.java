@@ -2,9 +2,12 @@ package tbeerbower.org.wsfl.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -18,8 +21,12 @@ public class Team {
     @SequenceGenerator(name = "team_id_seq", sequenceName = "public.team_id_seq", allocationSize = 1)
     private Integer id;
 
-    @Column(name = "owner_id")
+    @Column(name = "owner_id", insertable=false, updatable=false)
     private Integer ownerId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    private User owner;
 
     @Column(name = "name", length = 45, nullable = false)
     private String name;
@@ -48,6 +55,14 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     @Override
