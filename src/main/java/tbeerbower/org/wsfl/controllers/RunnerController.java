@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import tbeerbower.org.wsfl.entities.Runner;
 import tbeerbower.org.wsfl.repositories.RunnerRepository;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class RunnerController {
 
     // Get a runner by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Runner> getRunnerById(@PathVariable Integer id) {
+    public ResponseEntity<Runner> getRunnerById(@PathVariable Integer id, Principal principal) {
         Optional<Runner> runner = runnerRepository.findById(id);
         return runner.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
