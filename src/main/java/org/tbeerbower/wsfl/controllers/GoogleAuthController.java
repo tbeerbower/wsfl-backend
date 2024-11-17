@@ -1,21 +1,25 @@
 package org.tbeerbower.wsfl.controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.tbeerbower.wsfl.dtos.GoogleCode;
+import org.tbeerbower.wsfl.security.GoogleTokenVerifier;
 
+import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
-import javax.crypto.spec.SecretKeySpec;
 
 @RestController
 @PreAuthorize("permitAll()")
@@ -36,7 +40,6 @@ public class GoogleAuthController {
     private String jwtSecret;
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @PostMapping
     public ResponseEntity<?> handleGoogleAuth(@RequestBody GoogleCode body, HttpServletResponse response) {
@@ -48,10 +51,10 @@ public class GoogleAuthController {
             String tokenEndpoint = "https://oauth2.googleapis.com/token";
 
             Map<String, String> tokenRequest = Map.of(
-                    "client_id", "32904200865-06fav6dc33cs4judtp1abrt10373ldsj.apps.googleusercontent.com",
-                    "client_secret", "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",
+                    "client_id", clientId,
+                    "client_secret", clientSecret,
                     "code", authorizationCode,
-                    "redirect_uri", "http://localhost:8080",
+                    "redirect_uri", redirectUri,
                     "grant_type", "authorization_code"
             );
 
@@ -62,41 +65,26 @@ public class GoogleAuthController {
             String accessToken = (String) tokenResponse.get("access_token");
 
             // Step 2: Verify ID token
-            boolean isTokenValid = verifyIdToken(idToken);
-            if (!isTokenValid) {
+            GoogleTokenVerifier verifier = new GoogleTokenVerifier(
+                    clientId, restTemplate);
+
+            try {
+                // Step 3: Create JWT
+                String jwt = createJwt(idToken, verifier.verifyAndExtractClaims(idToken));
+
+                // Step 4: Return JWT to frontend
+                return ResponseEntity.ok().body(Map.of("jwt", jwt, "accessToken", accessToken));
+
+            } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid ID token");
             }
-
-            // Step 3: Create JWT
-            String jwt = createJwt(idToken);
-
-            // Step 4: Return JWT to frontend
-            return ResponseEntity.ok().body(Map.of("jwt", jwt, "accessToken", accessToken));
-
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Authentication failed");
         }
     }
 
-    private boolean verifyIdToken(String idToken) {
-        try {
-            String url = "https://www.googleapis.com/oauth2/v3/certs";
-            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
-
-            JsonNode jwks = objectMapper.readTree(response.getBody());
-            // Parse and validate the ID token using Google's public keys (logic omitted for brevity)
-
-            // TODO: Validate token claims such as expiration, audience, and issuer
-
-            return true; // Placeholder, replace with actual validation logic
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private String createJwt(String idToken) {
+    private String createJwt(String idToken, GoogleTokenVerifier.TokenClaims claims) {
         Key key = new SecretKeySpec(jwtSecret.getBytes(), SignatureAlgorithm.HS256.getJcaName());
 
         return Jwts.builder()
@@ -105,6 +93,9 @@ public class GoogleAuthController {
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60))) // 1 hour
                 .signWith(key)
+                .claim("email", claims.email())
+                .claim("picture", claims.picture())
+                .claim("name", claims.name())
                 .compact();
     }
 }
