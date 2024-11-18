@@ -18,17 +18,20 @@ public class User {
     @SequenceGenerator(name = "usr_id_seq", sequenceName = "public.usr_id_seq", allocationSize = 1)
     private Integer id;
 
-    @Column(name = "user_name", length = 45, nullable = false)
+    @Column(name = "user_name", length = 100, nullable = false)
     private String userName;
 
-    @Column(name = "name", length = 45, nullable = false)
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "email", length = 45, nullable = false)
+    @Column(name = "email", length = 100, nullable = false)
     private String email;
 
-    @Column(name = "password", length = 45, nullable = false)
+    @Column(name = "password", length = 100, nullable = false)
     private String password;
+
+    @Column(name = "roles", length = 100, nullable = false)
+    private String roles;
 
     @Column(name = "active", nullable = false)
     private Boolean active;
@@ -75,6 +78,14 @@ public class User {
         this.password = password;
     }
 
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
     public Boolean isActive() {
         return active;
     }
@@ -91,6 +102,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", roles='" + roles + '\'' +
                 ", active=" + active +
                 '}';
     }
@@ -100,11 +112,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(active, user.active);
+        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles) && Objects.equals(active, user.active);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, name, email, password, active);
+        return Objects.hash(id, userName, name, email, password, roles, active);
     }
 }

@@ -364,10 +364,11 @@ ALTER TABLE public.usr_id_seq OWNER TO tbeerbower;
 
 CREATE TABLE public.usr (
     id integer DEFAULT nextval('public.usr_id_seq'::regclass) NOT NULL,
-    user_name character varying(45) NOT NULL,
-    name character varying(45) NOT NULL,
-    email character varying(45) NOT NULL,
-    password character varying(45) NOT NULL,
+    user_name character varying(100) NOT NULL,
+    name character varying(100) NOT NULL,
+    email character varying(100) NOT NULL,
+    password character varying(100) NOT NULL,
+    roles character varying(100) NOT NULL,
     active boolean NOT NULL
 );
 
