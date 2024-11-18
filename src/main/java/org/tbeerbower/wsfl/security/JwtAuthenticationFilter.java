@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -14,7 +16,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.tbeerbower.wsfl.services.JwtService;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -35,7 +38,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.clearContext();
 
         // If there's no auth header, continue the chain without authentication
-        // Let Spring Security handle authorization based on @PreAuthorize annotations
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             log.debug("No valid Authorization header found, continuing chain");
             filterChain.doFilter(request, response);
@@ -49,12 +51,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             TokenClaims claims = jwtService.validateToken(jwt);
             log.debug("JWT token validated successfully for user: {}", claims.email());
 
+            // Convert roles to GrantedAuthorities
+            List<GrantedAuthority> authorities = claims.roles().stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
+                    .collect(Collectors.toList());
+
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(claims, null, Collections.emptyList());
+                    new UsernamePasswordAuthenticationToken(claims, null, authorities);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.debug("Set authentication in SecurityContext");
+            log.debug("Set authentication in SecurityContext with roles: {}", authorities);
 
             filterChain.doFilter(request, response);
         } catch (Exception e) {
@@ -63,10 +70,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Invalid JWT token: " + e.getMessage());
         }
-    }
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        return request.getRequestURI().startsWith("/api/auth/");
     }
 }

@@ -1,6 +1,7 @@
 package org.tbeerbower.wsfl.security;
 
 import java.util.Date;
+import java.util.Set;
 
 public record TokenClaims(
         String subject,
@@ -9,6 +10,7 @@ public record TokenClaims(
         String name,
         Date expiresAt,
         String audience,
-        String issuer
+        String issuer,
+        Set<String> roles
 ) {
 }

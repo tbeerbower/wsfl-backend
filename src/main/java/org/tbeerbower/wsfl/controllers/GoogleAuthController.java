@@ -31,6 +31,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @PreAuthorize("permitAll()")
@@ -105,6 +106,7 @@ public class GoogleAuthController {
                 .claim("email", claims.email())
                 .claim("picture", claims.picture())
                 .claim("name", claims.name())
+                .claim("roles", claims.roles())
                 .compact();
     }
 
@@ -162,7 +164,8 @@ public class GoogleAuthController {
                         jwt.getClaim("name").asString(),
                         jwt.getExpiresAt(),
                         jwt.getAudience().getFirst(),
-                        jwt.getIssuer()
+                        jwt.getIssuer(),
+                        Set.of("USER") // TODO: Hardcoded roles
                 );
             } catch (JWTVerificationException e) {
                 throw new Exception("Token verification failed: " + e.getMessage(), e);

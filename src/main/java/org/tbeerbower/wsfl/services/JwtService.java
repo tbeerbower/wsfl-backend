@@ -10,6 +10,10 @@ import org.tbeerbower.wsfl.security.TokenClaims;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 // JwtService.java
 @Service
@@ -26,6 +30,11 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
 
+        // Extract roles, defaulting to an empty set if not present
+        Set<String> roles = Optional.ofNullable((List<String>) claims.get("roles"))
+                .map(HashSet::new)
+                .orElse(new HashSet<>());
+
         return new TokenClaims(
                 claims.get("subject", String.class),
                 claims.get("email", String.class),
@@ -33,7 +42,8 @@ public class JwtService {
                 claims.get("name", String.class),
                 claims.get("expiresAt", Date.class),
                 claims.get("audience", String.class),
-                claims.get("issuer", String.class)
+                claims.get("issuer", String.class),
+                roles
         );
     }
 }
