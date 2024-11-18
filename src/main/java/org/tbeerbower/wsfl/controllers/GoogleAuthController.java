@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.tbeerbower.wsfl.dtos.GoogleCode;
+import org.tbeerbower.wsfl.security.TokenClaims;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
@@ -168,6 +169,7 @@ public class GoogleAuthController {
             }
         }
 
+
         private RSAPublicKey parsePublicKey(String modulus, String exponent) throws Exception {
             byte[] nBytes = Base64.getUrlDecoder().decode(modulus);
             byte[] eBytes = Base64.getUrlDecoder().decode(exponent);
@@ -181,13 +183,4 @@ public class GoogleAuthController {
         }
     }
 
-    private record TokenClaims(
-            String subject,
-            String email,
-            String picture,
-            String name,
-            Date expiresAt,
-            String audience,
-            String issuer
-    ) {}
 }

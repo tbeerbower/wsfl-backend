@@ -27,6 +27,7 @@ public class RunnerController {
 
     // Get all runners
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public List<Runner> getAllRunners() {
         return runnerRepository.findAll();
     }
