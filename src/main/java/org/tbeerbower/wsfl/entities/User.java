@@ -33,6 +33,17 @@ public class User {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
+    public User() {
+    }
+
+    public User(String name, String email, String password, String roles, Boolean active) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.active = active;
+    }
+
     // Getters and setters
 
     public Integer getId() {
