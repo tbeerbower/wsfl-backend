@@ -3,6 +3,7 @@ package org.tbeerbower.wsfl.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.tbeerbower.wsfl.entities.User;
@@ -11,6 +12,8 @@ import org.tbeerbower.wsfl.repositories.UserRepository;
 import java.util.Optional;
 
 @RestController
+@PreAuthorize("permitAll()")
+@CrossOrigin
 @RequestMapping("/api/register")
 public class RegistrationController {
 
@@ -22,11 +25,6 @@ public class RegistrationController {
 
     @PostMapping
     public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest request) {
-        // Check if userName already exists
-        Optional<User> existingUserByUserName = userRepository.findByUserName(request.getUserName());
-        if (existingUserByUserName.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("userName already exists");
-        }
 
         // Check if email already exists
         Optional<User> existingUserByEmail = userRepository.findByEmail(request.getEmail());
@@ -36,7 +34,6 @@ public class RegistrationController {
 
         // Create new user
         User newUser = new User();
-        newUser.setUserName(request.getUserName());
         newUser.setName(request.getName());
         newUser.setEmail(request.getEmail());
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -51,19 +48,10 @@ public class RegistrationController {
 
     // DTO for registration request body
     public static class RegistrationRequest {
-        private String userName;
         private String name;
         private String email;
         private String password;
 
-        // Getters and setters
-        public String getUserName() {
-            return userName;
-        }
-
-        public void setUserName(String userName) {
-            this.userName = userName;
-        }
 
         public String getName() {
             return name;

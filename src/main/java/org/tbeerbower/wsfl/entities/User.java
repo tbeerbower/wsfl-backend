@@ -18,9 +18,6 @@ public class User {
     @SequenceGenerator(name = "usr_id_seq", sequenceName = "public.usr_id_seq", allocationSize = 1)
     private Integer id;
 
-    @Column(name = "user_name", length = 100, nullable = false)
-    private String userName;
-
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
@@ -44,14 +41,6 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getName() {
@@ -98,7 +87,6 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", userName='" + userName + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
@@ -112,11 +100,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles) && Objects.equals(active, user.active);
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles) && Objects.equals(active, user.active);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, name, email, password, roles, active);
+        return Objects.hash(id, name, email, password, roles, active);
     }
 }

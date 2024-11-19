@@ -5,7 +5,7 @@
 -- Dumped from database version 10.6
 -- Dumped by pg_dump version 10.5
 
--- Started on 2024-11-13 09:05:37
+-- Started on 2024-11-19 06:18:27
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,7 +18,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 1 (class 3079 OID 16632)
+-- TOC entry 1 (class 3079 OID 12924)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -26,7 +26,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2989 (class 0 OID 0)
+-- TOC entry 2987 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -35,7 +35,7 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- TOC entry 196 (class 1259 OID 16637)
+-- TOC entry 196 (class 1259 OID 17111)
 -- Name: matchup_id_seq; Type: SEQUENCE; Schema: public; Owner: tbeerbower
 --
 
@@ -54,7 +54,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 197 (class 1259 OID 16639)
+-- TOC entry 197 (class 1259 OID 17113)
 -- Name: matchup; Type: TABLE; Schema: public; Owner: tbeerbower
 --
 
@@ -70,7 +70,7 @@ CREATE TABLE public.matchup (
 ALTER TABLE public.matchup OWNER TO tbeerbower;
 
 --
--- TOC entry 198 (class 1259 OID 16643)
+-- TOC entry 198 (class 1259 OID 17117)
 -- Name: race_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -85,13 +85,13 @@ CREATE SEQUENCE public.race_id_seq
 ALTER TABLE public.race_id_seq OWNER TO postgres;
 
 --
--- TOC entry 199 (class 1259 OID 16645)
+-- TOC entry 199 (class 1259 OID 17119)
 -- Name: race; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.race (
     id integer DEFAULT nextval('public.race_id_seq'::regclass) NOT NULL,
-    name character varying(45) NOT NULL,
+    name character varying(255) NOT NULL,
     season_id integer NOT NULL,
     week integer NOT NULL,
     cancelled boolean NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE public.race (
 ALTER TABLE public.race OWNER TO postgres;
 
 --
--- TOC entry 200 (class 1259 OID 16649)
+-- TOC entry 200 (class 1259 OID 17123)
 -- Name: race_definition_id_seq; Type: SEQUENCE; Schema: public; Owner: tbeerbower
 --
 
@@ -117,7 +117,7 @@ CREATE SEQUENCE public.race_definition_id_seq
 ALTER TABLE public.race_definition_id_seq OWNER TO tbeerbower;
 
 --
--- TOC entry 201 (class 1259 OID 16651)
+-- TOC entry 201 (class 1259 OID 17125)
 -- Name: race_definition; Type: TABLE; Schema: public; Owner: tbeerbower
 --
 
@@ -132,7 +132,7 @@ CREATE TABLE public.race_definition (
 ALTER TABLE public.race_definition OWNER TO tbeerbower;
 
 --
--- TOC entry 202 (class 1259 OID 16655)
+-- TOC entry 202 (class 1259 OID 17129)
 -- Name: result_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -147,7 +147,7 @@ CREATE SEQUENCE public.result_id_seq
 ALTER TABLE public.result_id_seq OWNER TO postgres;
 
 --
--- TOC entry 203 (class 1259 OID 16657)
+-- TOC entry 203 (class 1259 OID 17131)
 -- Name: result; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -157,14 +157,14 @@ CREATE TABLE public.result (
     race_id integer NOT NULL,
     place_gender integer NOT NULL,
     place_overall integer NOT NULL,
-    "time" character varying(45) NOT NULL
+    "time" character varying(255) NOT NULL
 );
 
 
 ALTER TABLE public.result OWNER TO postgres;
 
 --
--- TOC entry 204 (class 1259 OID 16661)
+-- TOC entry 204 (class 1259 OID 17135)
 -- Name: runner_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -179,7 +179,7 @@ CREATE SEQUENCE public.runner_id_seq
 ALTER TABLE public.runner_id_seq OWNER TO postgres;
 
 --
--- TOC entry 205 (class 1259 OID 16663)
+-- TOC entry 205 (class 1259 OID 17137)
 -- Name: runner; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -193,7 +193,7 @@ CREATE TABLE public.runner (
 ALTER TABLE public.runner OWNER TO postgres;
 
 --
--- TOC entry 206 (class 1259 OID 16667)
+-- TOC entry 206 (class 1259 OID 17141)
 -- Name: runner_alias_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -208,7 +208,7 @@ CREATE SEQUENCE public.runner_alias_id_seq
 ALTER TABLE public.runner_alias_id_seq OWNER TO postgres;
 
 --
--- TOC entry 207 (class 1259 OID 16669)
+-- TOC entry 207 (class 1259 OID 17143)
 -- Name: runner_alias; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -222,7 +222,7 @@ CREATE TABLE public.runner_alias (
 ALTER TABLE public.runner_alias OWNER TO postgres;
 
 --
--- TOC entry 208 (class 1259 OID 16673)
+-- TOC entry 208 (class 1259 OID 17147)
 -- Name: season_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -237,7 +237,7 @@ CREATE SEQUENCE public.season_id_seq
 ALTER TABLE public.season_id_seq OWNER TO postgres;
 
 --
--- TOC entry 209 (class 1259 OID 16675)
+-- TOC entry 209 (class 1259 OID 17149)
 -- Name: season; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -253,7 +253,7 @@ CREATE TABLE public.season (
 ALTER TABLE public.season OWNER TO postgres;
 
 --
--- TOC entry 210 (class 1259 OID 16679)
+-- TOC entry 210 (class 1259 OID 17153)
 -- Name: team_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -268,7 +268,7 @@ CREATE SEQUENCE public.team_id_seq
 ALTER TABLE public.team_id_seq OWNER TO postgres;
 
 --
--- TOC entry 211 (class 1259 OID 16681)
+-- TOC entry 211 (class 1259 OID 17155)
 -- Name: team; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -282,7 +282,7 @@ CREATE TABLE public.team (
 ALTER TABLE public.team OWNER TO postgres;
 
 --
--- TOC entry 212 (class 1259 OID 16685)
+-- TOC entry 212 (class 1259 OID 17159)
 -- Name: team_runner_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -297,7 +297,7 @@ CREATE SEQUENCE public.team_runner_id_seq
 ALTER TABLE public.team_runner_id_seq OWNER TO postgres;
 
 --
--- TOC entry 213 (class 1259 OID 16687)
+-- TOC entry 213 (class 1259 OID 17161)
 -- Name: team_runner; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -313,7 +313,7 @@ CREATE TABLE public.team_runner (
 ALTER TABLE public.team_runner OWNER TO postgres;
 
 --
--- TOC entry 214 (class 1259 OID 16692)
+-- TOC entry 214 (class 1259 OID 17166)
 -- Name: team_season_id_seq; Type: SEQUENCE; Schema: public; Owner: tbeerbower
 --
 
@@ -328,7 +328,7 @@ CREATE SEQUENCE public.team_season_id_seq
 ALTER TABLE public.team_season_id_seq OWNER TO tbeerbower;
 
 --
--- TOC entry 215 (class 1259 OID 16694)
+-- TOC entry 215 (class 1259 OID 17168)
 -- Name: team_season; Type: TABLE; Schema: public; Owner: tbeerbower
 --
 
@@ -343,7 +343,7 @@ CREATE TABLE public.team_season (
 ALTER TABLE public.team_season OWNER TO tbeerbower;
 
 --
--- TOC entry 216 (class 1259 OID 16698)
+-- TOC entry 216 (class 1259 OID 17172)
 -- Name: usr_id_seq; Type: SEQUENCE; Schema: public; Owner: tbeerbower
 --
 
@@ -358,25 +358,24 @@ CREATE SEQUENCE public.usr_id_seq
 ALTER TABLE public.usr_id_seq OWNER TO tbeerbower;
 
 --
--- TOC entry 217 (class 1259 OID 16700)
+-- TOC entry 217 (class 1259 OID 17174)
 -- Name: usr; Type: TABLE; Schema: public; Owner: tbeerbower
 --
 
 CREATE TABLE public.usr (
     id integer DEFAULT nextval('public.usr_id_seq'::regclass) NOT NULL,
-    user_name character varying(100) NOT NULL,
     name character varying(100) NOT NULL,
     email character varying(100) NOT NULL,
     password character varying(100) NOT NULL,
-    roles character varying(100) NOT NULL,
-    active boolean NOT NULL
+    active boolean NOT NULL,
+    roles character varying(100) NOT NULL
 );
 
 
 ALTER TABLE public.usr OWNER TO tbeerbower;
 
 --
--- TOC entry 218 (class 1259 OID 16704)
+-- TOC entry 218 (class 1259 OID 17181)
 -- Name: volunteer_id_seq; Type: SEQUENCE; Schema: public; Owner: tbeerbower
 --
 
@@ -391,7 +390,7 @@ CREATE SEQUENCE public.volunteer_id_seq
 ALTER TABLE public.volunteer_id_seq OWNER TO tbeerbower;
 
 --
--- TOC entry 219 (class 1259 OID 16706)
+-- TOC entry 219 (class 1259 OID 17183)
 -- Name: volunteer; Type: TABLE; Schema: public; Owner: tbeerbower
 --
 
@@ -405,7 +404,7 @@ CREATE TABLE public.volunteer (
 ALTER TABLE public.volunteer OWNER TO tbeerbower;
 
 --
--- TOC entry 220 (class 1259 OID 16710)
+-- TOC entry 220 (class 1259 OID 17187)
 -- Name: volunteer_shift_id_seq; Type: SEQUENCE; Schema: public; Owner: tbeerbower
 --
 
@@ -420,7 +419,7 @@ CREATE SEQUENCE public.volunteer_shift_id_seq
 ALTER TABLE public.volunteer_shift_id_seq OWNER TO tbeerbower;
 
 --
--- TOC entry 221 (class 1259 OID 16712)
+-- TOC entry 221 (class 1259 OID 17189)
 -- Name: volunteer_shift; Type: TABLE; Schema: public; Owner: tbeerbower
 --
 
@@ -437,7 +436,7 @@ CREATE TABLE public.volunteer_shift (
 ALTER TABLE public.volunteer_shift OWNER TO tbeerbower;
 
 --
--- TOC entry 2956 (class 0 OID 16639)
+-- TOC entry 2955 (class 0 OID 17113)
 -- Dependencies: 197
 -- Data for Name: matchup; Type: TABLE DATA; Schema: public; Owner: tbeerbower
 --
@@ -771,7 +770,7 @@ COPY public.matchup (id, season_id, race_id, team_a_id, team_b_id) FROM stdin;
 
 
 --
--- TOC entry 2958 (class 0 OID 16645)
+-- TOC entry 2957 (class 0 OID 17119)
 -- Dependencies: 199
 -- Data for Name: race; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -861,7 +860,7 @@ COPY public.race (id, name, season_id, week, cancelled, race_definition_id) FROM
 
 
 --
--- TOC entry 2960 (class 0 OID 16651)
+-- TOC entry 2959 (class 0 OID 17125)
 -- Dependencies: 201
 -- Data for Name: race_definition; Type: TABLE DATA; Schema: public; Owner: tbeerbower
 --
@@ -882,7 +881,7 @@ COPY public.race_definition (id, name, short_name, small_icon) FROM stdin;
 
 
 --
--- TOC entry 2962 (class 0 OID 16657)
+-- TOC entry 2961 (class 0 OID 17131)
 -- Dependencies: 203
 -- Data for Name: result; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -18856,7 +18855,7 @@ COPY public.result (id, runner_id, race_id, place_gender, place_overall, "time")
 
 
 --
--- TOC entry 2964 (class 0 OID 16663)
+-- TOC entry 2963 (class 0 OID 17137)
 -- Dependencies: 205
 -- Data for Name: runner; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -21206,7 +21205,7 @@ COPY public.runner (id, name, gender) FROM stdin;
 
 
 --
--- TOC entry 2966 (class 0 OID 16669)
+-- TOC entry 2965 (class 0 OID 17143)
 -- Dependencies: 207
 -- Data for Name: runner_alias; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -21474,7 +21473,7 @@ COPY public.runner_alias (id, name, runner_id) FROM stdin;
 
 
 --
--- TOC entry 2968 (class 0 OID 16675)
+-- TOC entry 2967 (class 0 OID 17149)
 -- Dependencies: 209
 -- Data for Name: season; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -21492,7 +21491,7 @@ COPY public.season (id, name, num_scores, draft_rounds, supplemental_rounds) FRO
 
 
 --
--- TOC entry 2970 (class 0 OID 16681)
+-- TOC entry 2969 (class 0 OID 17155)
 -- Dependencies: 211
 -- Data for Name: team; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -21522,7 +21521,7 @@ COPY public.team (id, owner_id, name) FROM stdin;
 
 
 --
--- TOC entry 2972 (class 0 OID 16687)
+-- TOC entry 2971 (class 0 OID 17161)
 -- Dependencies: 213
 -- Data for Name: team_runner; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -22062,7 +22061,7 @@ COPY public.team_runner (id, runner_id, draft_order, active, team_season_id) FRO
 
 
 --
--- TOC entry 2974 (class 0 OID 16694)
+-- TOC entry 2973 (class 0 OID 17168)
 -- Dependencies: 215
 -- Data for Name: team_season; Type: TABLE DATA; Schema: public; Owner: tbeerbower
 --
@@ -22156,38 +22155,43 @@ COPY public.team_season (team_id, season_id, draft_order, id) FROM stdin;
 
 
 --
--- TOC entry 2976 (class 0 OID 16700)
+-- TOC entry 2975 (class 0 OID 17174)
 -- Dependencies: 217
 -- Data for Name: usr; Type: TABLE DATA; Schema: public; Owner: tbeerbower
 --
 
-COPY public.usr (id, user_name, name, email, password, active) FROM stdin;
-1	tbeerbower	Thomas Beerbower	tbeerbower@yahoo.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-2	jbogan	James Bogan	jbogan@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-3	sprice	Steve Price	stprice50@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-4	jlarson	James Larson	jflarson63@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-5	athompson	Allyson Thompson	ajann0924@hotmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-6	dschaal	Daniel Schaal	d27schaal@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-7	bnemec	Breandan Nemec	bnemec22@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-8	plederer	Peter Lederer	pete.lederer@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-9	hbrenner	Harris Brenner	harris.brenner@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-10	mesmonde	Megan Esmonde	mesmonde04@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-11	wsfl1	Guest	tbeerbower@yahoo.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-12	mgross	Mike Gross	mikegross1@verizon.net	9ce89720adc4185fff6019922786cf43449d4d72	t
-13	mhastings	Matthew Hastings	matthew1934@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-14	gcohen	Glenn Cohen	gcertified@comcast.net	9ce89720adc4185fff6019922786cf43449d4d72	t
-15	jricco	Jay Ricco	jricco89@yahoo.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-16	cthompson	Chris Thompson	wi1ennium@hotmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-17	scraig	Scott Craig	run4funche@yahoo.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-18	ggrace	Greg Grace	greggrace@aol.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-19	rkanak	Richard Kanak	anchorconstruct@comcast.net	9ce89720adc4185fff6019922786cf43449d4d72	t
-20	egrace	Emily Grace	emgrace@aol.com	9ce89720adc4185fff6019922786cf43449d4d72	t
-21	mgeberth	Mike Geberth	mikegeberth@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t
+COPY public.usr (id, name, email, password, active, roles) FROM stdin;
+2	James Bogan	jbogan@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+3	Steve Price	stprice50@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+4	James Larson	jflarson63@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+5	Allyson Thompson	ajann0924@hotmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+6	Daniel Schaal	d27schaal@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+7	Breandan Nemec	bnemec22@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+8	Peter Lederer	pete.lederer@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+9	Harris Brenner	harris.brenner@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+10	Megan Esmonde	mesmonde04@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+11	Guest	tbeerbower@yahoo.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+12	Mike Gross	mikegross1@verizon.net	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+13	Matthew Hastings	matthew1934@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+14	Glenn Cohen	gcertified@comcast.net	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+15	Jay Ricco	jricco89@yahoo.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+16	Chris Thompson	wi1ennium@hotmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+17	Scott Craig	run4funche@yahoo.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+18	Greg Grace	greggrace@aol.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+19	Richard Kanak	anchorconstruct@comcast.net	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+20	Emily Grace	emgrace@aol.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+21	Mike Geberth	mikegeberth@gmail.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER
+26	Test Testermann	testeroo@gmail.com	$2a$10$oX0Cw57ds3UD7E3YWnhF/.690y0evTC3i1hM5rMHsM3vhZKd1FOfi	t	USER
+27	Test Testermann2	testeroo2@gmail.com	$2a$10$BAjKJOXkYsihYl01G0yywuzCr/5yokESK5HIqxDtsBFkb4znnSmQi	t	USER
+28	Test Testermann3	testeroo3@gmail.com	$2a$10$2vIEMYUE6Ivl5wkfIwoU/OKcy9a40qFMYzATgb4T5ttiH6UXq3f0W	t	USER
+29	Tester Testy	testy1@gmail.com	$2a$10$L45QHqN7dVH38BmA1COGBOFLn4gPqJQH8AJRjvyvpm7oyHyiEWc9.	t	USER
+1	Thomas Beerbower	tbeerbower@yahoo.com	9ce89720adc4185fff6019922786cf43449d4d72	t	USER,ADMIN
+30	Tom Beerbower	tbeerbower@gmail.com	na	t	USER,ADMIN
 \.
 
 
 --
--- TOC entry 2978 (class 0 OID 16706)
+-- TOC entry 2977 (class 0 OID 17183)
 -- Dependencies: 219
 -- Data for Name: volunteer; Type: TABLE DATA; Schema: public; Owner: tbeerbower
 --
@@ -22453,7 +22457,7 @@ COPY public.volunteer (id, shift_id, runner_id) FROM stdin;
 
 
 --
--- TOC entry 2980 (class 0 OID 16712)
+-- TOC entry 2979 (class 0 OID 17189)
 -- Dependencies: 221
 -- Data for Name: volunteer_shift; Type: TABLE DATA; Schema: public; Owner: tbeerbower
 --
@@ -22476,7 +22480,7 @@ COPY public.volunteer_shift (id, season_id, race_id, name, tag, race_definition_
 
 
 --
--- TOC entry 2990 (class 0 OID 0)
+-- TOC entry 2988 (class 0 OID 0)
 -- Dependencies: 196
 -- Name: matchup_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbeerbower
 --
@@ -22485,7 +22489,7 @@ SELECT pg_catalog.setval('public.matchup_id_seq', 341, true);
 
 
 --
--- TOC entry 2991 (class 0 OID 0)
+-- TOC entry 2989 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: race_definition_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbeerbower
 --
@@ -22494,7 +22498,7 @@ SELECT pg_catalog.setval('public.race_definition_id_seq', 11, true);
 
 
 --
--- TOC entry 2992 (class 0 OID 0)
+-- TOC entry 2990 (class 0 OID 0)
 -- Dependencies: 198
 -- Name: race_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -22503,7 +22507,7 @@ SELECT pg_catalog.setval('public.race_id_seq', 301, true);
 
 
 --
--- TOC entry 2993 (class 0 OID 0)
+-- TOC entry 2991 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: result_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -22512,7 +22516,7 @@ SELECT pg_catalog.setval('public.result_id_seq', 82094, true);
 
 
 --
--- TOC entry 2994 (class 0 OID 0)
+-- TOC entry 2992 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: runner_alias_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -22521,7 +22525,7 @@ SELECT pg_catalog.setval('public.runner_alias_id_seq', 286, true);
 
 
 --
--- TOC entry 2995 (class 0 OID 0)
+-- TOC entry 2993 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: runner_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -22530,7 +22534,7 @@ SELECT pg_catalog.setval('public.runner_id_seq', 3862, true);
 
 
 --
--- TOC entry 2996 (class 0 OID 0)
+-- TOC entry 2994 (class 0 OID 0)
 -- Dependencies: 208
 -- Name: season_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -22539,7 +22543,7 @@ SELECT pg_catalog.setval('public.season_id_seq', 20, true);
 
 
 --
--- TOC entry 2997 (class 0 OID 0)
+-- TOC entry 2995 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: team_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -22548,7 +22552,7 @@ SELECT pg_catalog.setval('public.team_id_seq', 20, true);
 
 
 --
--- TOC entry 2998 (class 0 OID 0)
+-- TOC entry 2996 (class 0 OID 0)
 -- Dependencies: 212
 -- Name: team_runner_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -22557,7 +22561,7 @@ SELECT pg_catalog.setval('public.team_runner_id_seq', 676, true);
 
 
 --
--- TOC entry 2999 (class 0 OID 0)
+-- TOC entry 2997 (class 0 OID 0)
 -- Dependencies: 214
 -- Name: team_season_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbeerbower
 --
@@ -22566,16 +22570,16 @@ SELECT pg_catalog.setval('public.team_season_id_seq', 105, true);
 
 
 --
--- TOC entry 3000 (class 0 OID 0)
+-- TOC entry 2998 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: usr_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbeerbower
 --
 
-SELECT pg_catalog.setval('public.usr_id_seq', 21, true);
+SELECT pg_catalog.setval('public.usr_id_seq', 30, true);
 
 
 --
--- TOC entry 3001 (class 0 OID 0)
+-- TOC entry 2999 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: volunteer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbeerbower
 --
@@ -22584,7 +22588,7 @@ SELECT pg_catalog.setval('public.volunteer_id_seq', 261, true);
 
 
 --
--- TOC entry 3002 (class 0 OID 0)
+-- TOC entry 3000 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: volunteer_shift_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbeerbower
 --
@@ -22593,7 +22597,7 @@ SELECT pg_catalog.setval('public.volunteer_shift_id_seq', 13, true);
 
 
 --
--- TOC entry 2763 (class 2606 OID 16717)
+-- TOC entry 2764 (class 2606 OID 17194)
 -- Name: race_definition race_definition_name_key; Type: CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22602,7 +22606,7 @@ ALTER TABLE ONLY public.race_definition
 
 
 --
--- TOC entry 2765 (class 2606 OID 16719)
+-- TOC entry 2766 (class 2606 OID 17196)
 -- Name: race_definition race_definition_pkey; Type: CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22611,7 +22615,7 @@ ALTER TABLE ONLY public.race_definition
 
 
 --
--- TOC entry 2758 (class 2606 OID 16721)
+-- TOC entry 2759 (class 2606 OID 17350)
 -- Name: race race_name_season_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22620,7 +22624,7 @@ ALTER TABLE ONLY public.race
 
 
 --
--- TOC entry 2760 (class 2606 OID 16723)
+-- TOC entry 2761 (class 2606 OID 17200)
 -- Name: race race_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22629,7 +22633,7 @@ ALTER TABLE ONLY public.race
 
 
 --
--- TOC entry 2768 (class 2606 OID 16725)
+-- TOC entry 2769 (class 2606 OID 17202)
 -- Name: result result_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22638,7 +22642,7 @@ ALTER TABLE ONLY public.result
 
 
 --
--- TOC entry 2772 (class 2606 OID 16727)
+-- TOC entry 2773 (class 2606 OID 17204)
 -- Name: result result_runner_id_race_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22647,7 +22651,7 @@ ALTER TABLE ONLY public.result
 
 
 --
--- TOC entry 2782 (class 2606 OID 16729)
+-- TOC entry 2783 (class 2606 OID 17206)
 -- Name: runner_alias runner_alias_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22656,7 +22660,7 @@ ALTER TABLE ONLY public.runner_alias
 
 
 --
--- TOC entry 2784 (class 2606 OID 16731)
+-- TOC entry 2785 (class 2606 OID 17208)
 -- Name: runner_alias runner_alias_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22665,7 +22669,7 @@ ALTER TABLE ONLY public.runner_alias
 
 
 --
--- TOC entry 2776 (class 2606 OID 16733)
+-- TOC entry 2777 (class 2606 OID 17210)
 -- Name: runner runner_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22674,7 +22678,7 @@ ALTER TABLE ONLY public.runner
 
 
 --
--- TOC entry 2778 (class 2606 OID 16735)
+-- TOC entry 2779 (class 2606 OID 17212)
 -- Name: runner runner_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22683,7 +22687,7 @@ ALTER TABLE ONLY public.runner
 
 
 --
--- TOC entry 2788 (class 2606 OID 16737)
+-- TOC entry 2789 (class 2606 OID 17214)
 -- Name: season season_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22692,7 +22696,7 @@ ALTER TABLE ONLY public.season
 
 
 --
--- TOC entry 2790 (class 2606 OID 16739)
+-- TOC entry 2791 (class 2606 OID 17216)
 -- Name: season season_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22701,7 +22705,7 @@ ALTER TABLE ONLY public.season
 
 
 --
--- TOC entry 2793 (class 2606 OID 16741)
+-- TOC entry 2794 (class 2606 OID 17218)
 -- Name: team team_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22710,7 +22714,7 @@ ALTER TABLE ONLY public.team
 
 
 --
--- TOC entry 2795 (class 2606 OID 16743)
+-- TOC entry 2796 (class 2606 OID 17220)
 -- Name: team team_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22719,7 +22723,7 @@ ALTER TABLE ONLY public.team
 
 
 --
--- TOC entry 2798 (class 2606 OID 16745)
+-- TOC entry 2799 (class 2606 OID 17222)
 -- Name: team_runner team_runner_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22728,7 +22732,7 @@ ALTER TABLE ONLY public.team_runner
 
 
 --
--- TOC entry 2800 (class 2606 OID 16747)
+-- TOC entry 2801 (class 2606 OID 17224)
 -- Name: team_season team_season_pkey; Type: CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22737,7 +22741,7 @@ ALTER TABLE ONLY public.team_season
 
 
 --
--- TOC entry 2802 (class 2606 OID 16749)
+-- TOC entry 2803 (class 2606 OID 17226)
 -- Name: team_season team_season_season_id_draft_order_key; Type: CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22746,7 +22750,7 @@ ALTER TABLE ONLY public.team_season
 
 
 --
--- TOC entry 2804 (class 2606 OID 16751)
+-- TOC entry 2805 (class 2606 OID 17228)
 -- Name: usr usr_pkey; Type: CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22755,16 +22759,7 @@ ALTER TABLE ONLY public.usr
 
 
 --
--- TOC entry 2806 (class 2606 OID 16753)
--- Name: usr usr_user_name_key; Type: CONSTRAINT; Schema: public; Owner: tbeerbower
---
-
-ALTER TABLE ONLY public.usr
-    ADD CONSTRAINT usr_user_name_key UNIQUE (user_name);
-
-
---
--- TOC entry 2808 (class 2606 OID 16755)
+-- TOC entry 2807 (class 2606 OID 17232)
 -- Name: volunteer volunteer_pkey; Type: CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22773,7 +22768,7 @@ ALTER TABLE ONLY public.volunteer
 
 
 --
--- TOC entry 2810 (class 2606 OID 16757)
+-- TOC entry 2809 (class 2606 OID 17234)
 -- Name: volunteer volunteer_shift_id_runner_id_key; Type: CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22782,7 +22777,7 @@ ALTER TABLE ONLY public.volunteer
 
 
 --
--- TOC entry 2812 (class 2606 OID 16759)
+-- TOC entry 2811 (class 2606 OID 17236)
 -- Name: volunteer_shift volunteer_shift_pkey; Type: CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22791,7 +22786,7 @@ ALTER TABLE ONLY public.volunteer_shift
 
 
 --
--- TOC entry 2814 (class 2606 OID 16761)
+-- TOC entry 2813 (class 2606 OID 17238)
 -- Name: volunteer_shift volunteer_shift_tag_season_id_key; Type: CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22800,7 +22795,7 @@ ALTER TABLE ONLY public.volunteer_shift
 
 
 --
--- TOC entry 2756 (class 1259 OID 16762)
+-- TOC entry 2757 (class 1259 OID 17239)
 -- Name: race_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22808,7 +22803,7 @@ CREATE INDEX race_id ON public.race USING btree (id);
 
 
 --
--- TOC entry 2761 (class 1259 OID 16763)
+-- TOC entry 2762 (class 1259 OID 17240)
 -- Name: race_season_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22816,7 +22811,7 @@ CREATE INDEX race_season_id ON public.race USING btree (season_id);
 
 
 --
--- TOC entry 2766 (class 1259 OID 16764)
+-- TOC entry 2767 (class 1259 OID 17241)
 -- Name: result_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22824,7 +22819,7 @@ CREATE INDEX result_id ON public.result USING btree (id);
 
 
 --
--- TOC entry 2769 (class 1259 OID 16765)
+-- TOC entry 2770 (class 1259 OID 17242)
 -- Name: result_race_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22832,7 +22827,7 @@ CREATE INDEX result_race_id ON public.result USING btree (race_id);
 
 
 --
--- TOC entry 2770 (class 1259 OID 16766)
+-- TOC entry 2771 (class 1259 OID 17243)
 -- Name: result_runner_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22840,7 +22835,7 @@ CREATE INDEX result_runner_id ON public.result USING btree (runner_id);
 
 
 --
--- TOC entry 2779 (class 1259 OID 16767)
+-- TOC entry 2780 (class 1259 OID 17244)
 -- Name: runner_alias_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22848,7 +22843,7 @@ CREATE INDEX runner_alias_id ON public.runner_alias USING btree (id);
 
 
 --
--- TOC entry 2780 (class 1259 OID 16768)
+-- TOC entry 2781 (class 1259 OID 17245)
 -- Name: runner_alias_name; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22856,7 +22851,7 @@ CREATE INDEX runner_alias_name ON public.runner_alias USING btree (name);
 
 
 --
--- TOC entry 2785 (class 1259 OID 16769)
+-- TOC entry 2786 (class 1259 OID 17246)
 -- Name: runner_alias_runner_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22864,7 +22859,7 @@ CREATE INDEX runner_alias_runner_id ON public.runner_alias USING btree (runner_i
 
 
 --
--- TOC entry 2773 (class 1259 OID 16770)
+-- TOC entry 2774 (class 1259 OID 17247)
 -- Name: runner_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22872,7 +22867,7 @@ CREATE INDEX runner_id ON public.runner USING btree (id);
 
 
 --
--- TOC entry 2774 (class 1259 OID 16771)
+-- TOC entry 2775 (class 1259 OID 17248)
 -- Name: runner_name; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22880,7 +22875,7 @@ CREATE INDEX runner_name ON public.runner USING btree (name);
 
 
 --
--- TOC entry 2786 (class 1259 OID 16772)
+-- TOC entry 2787 (class 1259 OID 17249)
 -- Name: season_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22888,7 +22883,7 @@ CREATE INDEX season_id ON public.season USING btree (id);
 
 
 --
--- TOC entry 2791 (class 1259 OID 16773)
+-- TOC entry 2792 (class 1259 OID 17250)
 -- Name: team_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22896,7 +22891,7 @@ CREATE INDEX team_id ON public.team USING btree (id);
 
 
 --
--- TOC entry 2796 (class 1259 OID 16774)
+-- TOC entry 2797 (class 1259 OID 17251)
 -- Name: team_runner_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -22904,7 +22899,7 @@ CREATE INDEX team_runner_id ON public.team_runner USING btree (id);
 
 
 --
--- TOC entry 2815 (class 2606 OID 16775)
+-- TOC entry 2814 (class 2606 OID 17252)
 -- Name: matchup matchup_race_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22913,7 +22908,7 @@ ALTER TABLE ONLY public.matchup
 
 
 --
--- TOC entry 2816 (class 2606 OID 16780)
+-- TOC entry 2815 (class 2606 OID 17257)
 -- Name: matchup matchup_season_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22922,7 +22917,7 @@ ALTER TABLE ONLY public.matchup
 
 
 --
--- TOC entry 2817 (class 2606 OID 16785)
+-- TOC entry 2816 (class 2606 OID 17262)
 -- Name: matchup matchup_team_a_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22931,7 +22926,7 @@ ALTER TABLE ONLY public.matchup
 
 
 --
--- TOC entry 2818 (class 2606 OID 16790)
+-- TOC entry 2817 (class 2606 OID 17267)
 -- Name: matchup matchup_team_b_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -22940,7 +22935,7 @@ ALTER TABLE ONLY public.matchup
 
 
 --
--- TOC entry 2819 (class 2606 OID 16795)
+-- TOC entry 2818 (class 2606 OID 17272)
 -- Name: race race_race_definition_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22949,7 +22944,7 @@ ALTER TABLE ONLY public.race
 
 
 --
--- TOC entry 2820 (class 2606 OID 16800)
+-- TOC entry 2819 (class 2606 OID 17277)
 -- Name: race race_season_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22958,7 +22953,7 @@ ALTER TABLE ONLY public.race
 
 
 --
--- TOC entry 2821 (class 2606 OID 16805)
+-- TOC entry 2820 (class 2606 OID 17282)
 -- Name: result result_race_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22967,7 +22962,7 @@ ALTER TABLE ONLY public.result
 
 
 --
--- TOC entry 2822 (class 2606 OID 16810)
+-- TOC entry 2821 (class 2606 OID 17287)
 -- Name: result result_runner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22976,7 +22971,7 @@ ALTER TABLE ONLY public.result
 
 
 --
--- TOC entry 2823 (class 2606 OID 16815)
+-- TOC entry 2822 (class 2606 OID 17292)
 -- Name: runner_alias runner_alias_runner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22985,7 +22980,7 @@ ALTER TABLE ONLY public.runner_alias
 
 
 --
--- TOC entry 2825 (class 2606 OID 16820)
+-- TOC entry 2824 (class 2606 OID 17297)
 -- Name: team_runner team_runner_runner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -22994,7 +22989,7 @@ ALTER TABLE ONLY public.team_runner
 
 
 --
--- TOC entry 2826 (class 2606 OID 16825)
+-- TOC entry 2825 (class 2606 OID 17302)
 -- Name: team_runner team_runner_team_season_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -23003,7 +22998,7 @@ ALTER TABLE ONLY public.team_runner
 
 
 --
--- TOC entry 2827 (class 2606 OID 16830)
+-- TOC entry 2826 (class 2606 OID 17307)
 -- Name: team_season team_season_season_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -23012,7 +23007,7 @@ ALTER TABLE ONLY public.team_season
 
 
 --
--- TOC entry 2828 (class 2606 OID 16835)
+-- TOC entry 2827 (class 2606 OID 17312)
 -- Name: team_season team_season_team_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -23021,7 +23016,7 @@ ALTER TABLE ONLY public.team_season
 
 
 --
--- TOC entry 2824 (class 2606 OID 16840)
+-- TOC entry 2823 (class 2606 OID 17317)
 -- Name: team team_usr_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -23030,7 +23025,7 @@ ALTER TABLE ONLY public.team
 
 
 --
--- TOC entry 2829 (class 2606 OID 16845)
+-- TOC entry 2828 (class 2606 OID 17322)
 -- Name: volunteer volunteer_runner_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -23039,7 +23034,7 @@ ALTER TABLE ONLY public.volunteer
 
 
 --
--- TOC entry 2830 (class 2606 OID 16850)
+-- TOC entry 2829 (class 2606 OID 17327)
 -- Name: volunteer volunteer_shift_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -23048,7 +23043,7 @@ ALTER TABLE ONLY public.volunteer
 
 
 --
--- TOC entry 2831 (class 2606 OID 16855)
+-- TOC entry 2830 (class 2606 OID 17332)
 -- Name: volunteer_shift volunteer_shift_race_definition_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -23057,7 +23052,7 @@ ALTER TABLE ONLY public.volunteer_shift
 
 
 --
--- TOC entry 2832 (class 2606 OID 16860)
+-- TOC entry 2831 (class 2606 OID 17337)
 -- Name: volunteer_shift volunteer_shift_race_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -23066,7 +23061,7 @@ ALTER TABLE ONLY public.volunteer_shift
 
 
 --
--- TOC entry 2833 (class 2606 OID 16865)
+-- TOC entry 2832 (class 2606 OID 17342)
 -- Name: volunteer_shift volunteer_shift_season_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbeerbower
 --
 
@@ -23074,16 +23069,7 @@ ALTER TABLE ONLY public.volunteer_shift
     ADD CONSTRAINT volunteer_shift_season_id_fkey FOREIGN KEY (season_id) REFERENCES public.season(id) ON DELETE CASCADE;
 
 
---
--- TOC entry 2988 (class 0 OID 0)
--- Dependencies: 4
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
---
-
-GRANT ALL ON SCHEMA public TO PUBLIC;
-
-
--- Completed on 2024-11-13 09:05:38
+-- Completed on 2024-11-19 06:18:27
 
 --
 -- PostgreSQL database dump complete
