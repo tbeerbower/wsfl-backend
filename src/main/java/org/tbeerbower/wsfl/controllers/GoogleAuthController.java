@@ -23,7 +23,6 @@ import org.springframework.web.client.RestTemplate;
 import org.tbeerbower.wsfl.entities.User;
 import org.tbeerbower.wsfl.repositories.UserRepository;
 import org.tbeerbower.wsfl.security.JwtUtils;
-import org.tbeerbower.wsfl.security.TokenClaims;
 
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -31,8 +30,6 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @RestController
 @PreAuthorize("permitAll()")
@@ -81,11 +78,12 @@ public class GoogleAuthController {
             try {
                 String idToken = tokenResponse.id_token;
                 // Step 2: Verify ID token
-                TokenClaims claims = verifyAndExtractClaims(idToken);
+                User user = verifyIdToken(idToken);
                 // Step 3: Create JWT
-                String jwt = JwtUtils.createJwt(idToken, claims, jwtSecret);
+                String jwt = JwtUtils.createJwt(user, jwtSecret);
                 // Step 4: Return JWT to frontend
-                return ResponseEntity.ok().body(Map.of("jwt", jwt, "accessToken", tokenResponse.access_token));
+                GoogleAuthResponse authResponse = new GoogleAuthResponse(jwt, user);
+                return ResponseEntity.ok().body(authResponse);
 
             } catch (JWTVerificationException e) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid ID token");
@@ -96,7 +94,7 @@ public class GoogleAuthController {
         }
     }
 
-    public TokenClaims verifyAndExtractClaims(String idToken) throws JWTVerificationException {
+    public User verifyIdToken(String idToken) throws JWTVerificationException {
         // Decode the token without verification first to get the key ID
         DecodedJWT unverifiedJwt = JWT.decode(idToken);
         String keyId = unverifiedJwt.getKeyId();
@@ -119,27 +117,16 @@ public class GoogleAuthController {
 
         String email = jwt.getClaim("email").asString();
         String name = jwt.getClaim("name").asString();
+        String picture = jwt.getClaim("picture").asString();
 
         // Check if user exists
         User user = userRepository.findByEmail(email).orElse(null);
         if (user == null) {
             // Create user
-            user = new User(name, email, "N/A", "USER", true);
+            user = new User(name, picture, email, "N/A", "ROLE_USER", true);
             userRepository.save(user);
         }
-        Set<String> roles = Set.of(user.getRoles().split(","));
-
-        // Extract claims
-        return new TokenClaims(
-                jwt.getSubject(),
-                email,
-                jwt.getClaim("picture").asString(),
-                name,
-                jwt.getExpiresAt(),
-                jwt.getAudience().getFirst(),
-                jwt.getIssuer(),
-                roles
-        );
+        return user;
     }
 
     private RSAPublicKey retrieveGooglePublicKey(String keyId) throws JWTVerificationException {
@@ -159,6 +146,9 @@ public class GoogleAuthController {
     }
 
     private record GoogleTokenResponse(String access_token, String id_token) {
+    }
+
+    private record GoogleAuthResponse(String jwt, User user) {
     }
 
     public record JwksResponse(List<JwksKey> keys) {

@@ -30,20 +30,12 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
 
-        // Extract roles, defaulting to an empty set if not present
-        Set<String> roles = Optional.ofNullable((List<String>) claims.get("roles"))
-                .map(HashSet::new)
-                .orElse(new HashSet<>());
-
         return new TokenClaims(
                 claims.get("subject", String.class),
-                claims.get("email", String.class),
-                claims.get("picture", String.class),
-                claims.get("name", String.class),
                 claims.get("expiresAt", Date.class),
                 claims.get("audience", String.class),
                 claims.get("issuer", String.class),
-                roles
+                claims.get("auth", String.class)
         );
     }
 }

@@ -33,12 +33,9 @@ public class RegistrationController {
         }
 
         // Create new user
-        User newUser = new User();
-        newUser.setName(request.getName());
-        newUser.setEmail(request.getEmail());
-        newUser.setPassword(passwordEncoder.encode(request.getPassword()));
-        newUser.setActive(true);
-        newUser.setRoles("USER");
+        User newUser = new User(
+                request.getName(), null, request.getEmail(),
+                passwordEncoder.encode(request.getPassword()), "ROLE_USER", true);
 
         // Save user
         User createdUser = userRepository.save(newUser);

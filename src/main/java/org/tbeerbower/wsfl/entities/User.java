@@ -1,5 +1,6 @@
 package org.tbeerbower.wsfl.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,10 +22,14 @@ public class User {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
+    @Column(name = "picture")
+    private String picture;
+
     @Column(name = "email", length = 100, nullable = false)
     private String email;
 
     @Column(name = "password", length = 100, nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(name = "roles", length = 100, nullable = false)
@@ -36,8 +41,9 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, String password, String roles, Boolean active) {
+    public User(String name, String picture, String email, String password, String roles, Boolean active) {
         this.name = name;
+        this.picture = picture;
         this.email = email;
         this.password = password;
         this.roles = roles;
@@ -60,6 +66,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public String getEmail() {
@@ -99,6 +113,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", picture='" + picture + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", roles='" + roles + '\'' +

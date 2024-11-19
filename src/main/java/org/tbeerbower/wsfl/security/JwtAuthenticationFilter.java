@@ -17,6 +17,7 @@ import org.tbeerbower.wsfl.services.JwtService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -49,11 +50,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.debug("Attempting to validate JWT token");
 
             TokenClaims claims = jwtService.validateToken(jwt);
-            log.debug("JWT token validated successfully for user: {}", claims.email());
+            log.debug("JWT token validated successfully for user: {}", claims.subject());
+
+            Set<String> roles = Set.of(claims.auth().split(","));
 
             // Convert roles to GrantedAuthorities
-            List<GrantedAuthority> authorities = claims.roles().stream()
-                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
+            List<GrantedAuthority> authorities = roles.stream()
+                    .map(role -> new SimpleGrantedAuthority(role.toUpperCase()))
                     .collect(Collectors.toList());
 
             UsernamePasswordAuthenticationToken authentication =
