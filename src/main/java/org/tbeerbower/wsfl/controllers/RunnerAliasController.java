@@ -14,7 +14,7 @@ import java.util.Optional;
 @RestController
 @PreAuthorize("permitAll()")
 @CrossOrigin
-@RequestMapping("/api/runnerAliases")
+@RequestMapping("/api/runner-aliases")
 public class RunnerAliasController {
 
     private final RunnerAliasRepository runnerAliasRepository;

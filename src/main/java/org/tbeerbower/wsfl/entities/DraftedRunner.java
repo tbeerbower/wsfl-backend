@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "team_runner")
-public class TeamRunner {
+public class DraftedRunner {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "team_runner_id_seq")
     @SequenceGenerator(name = "team_runner_id_seq", sequenceName = "public.team_runner_id_seq", allocationSize = 1)
@@ -87,7 +87,7 @@ public class TeamRunner {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TeamRunner that = (TeamRunner) o;
+        DraftedRunner that = (DraftedRunner) o;
         return Objects.equals(id, that.id) && Objects.equals(runnerId, that.runnerId) && Objects.equals(draftOrder, that.draftOrder) && Objects.equals(active, that.active) && Objects.equals(teamSeasonId, that.teamSeasonId);
     }
 

@@ -14,7 +14,7 @@ import java.util.Optional;
 @RestController
 @PreAuthorize("permitAll()")
 @CrossOrigin
-@RequestMapping("/api/volunteerShifts")
+@RequestMapping("/api/volunteer-shifts")
 public class VolunteerShiftController {
 
     private final VolunteerShiftRepository volunteerShiftRepository;
