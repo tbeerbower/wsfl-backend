@@ -65,6 +65,33 @@ public class UserController {
         }
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<User> patchUser(@PathVariable Integer id, @RequestBody User userDetails) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isPresent()) {
+            User existingUser = optionalUser.get();
+
+            if (userDetails.getName() != null) {
+                existingUser.setName(userDetails.getName());
+            }
+            if (userDetails.getEmail() != null) {
+                existingUser.setEmail(userDetails.getEmail());
+            }
+            if (userDetails.getPassword() != null) {
+                existingUser.setPassword(userDetails.getPassword());
+            }
+            if (userDetails.isActive() != existingUser.isActive()) {
+                existingUser.setActive(userDetails.isActive());
+            }
+
+            User updatedUser = userRepository.save(existingUser);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     // Delete a User by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
